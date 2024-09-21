@@ -22,10 +22,6 @@ run:
 runtest:
 	./build/test
 
-
-update:
-	scl enable devtoolset-9 bash
-
 .PHONY:clean
 clean:
 	rm -rf $(BUILD_PATH)/main $(BUILD_PATH)/test
