@@ -1,7 +1,7 @@
 CC := gcc
 CXX := g++
 
-CXX_FLAGS := -std=c++17 -lpthread
+CXX_FLAGS := -std=c++17 -lpthread -L/lib64/mysql -lmysqlclient
 
 SRC_PATH := src
 INC_PATH := include
@@ -18,6 +18,9 @@ test:test.cc
 
 run:
 	./build/main
+
+update:
+	scl enable devtoolset-9 bash
 
 runtest:
 	./build/test
