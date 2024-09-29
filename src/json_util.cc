@@ -1,5 +1,6 @@
-#include "json_helper.h"
+#include "json_util.h"
 
+#include <iostream>
 #include <vector>
 
 namespace web_internal {
@@ -44,7 +45,7 @@ std::string DeparseJson(const std::map<std::string_view, std::string_view>& dict
     json += key;
     json += R"(":")";
     json += value;
-    json += R"(", )";
+    json += '"';
   }
 
   json += '}';

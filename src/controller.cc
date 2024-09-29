@@ -1,5 +1,5 @@
 #include "controller.h"
-#include "json_helper.h"
+#include "json_util.h"
 
 #include <iostream>
 
@@ -37,12 +37,13 @@ Controller::~Controller()
 
 std::string Controller::ParseLogin(const std::string_view& in_json, std::string* out_json)
 {
-  std::map<std::string_view, std::string_view> in_dict = json_util::ParseJson(in_json);
+  std::map<std::string_view, std::string_view> in_dict 
+    = json_util::ParseJson(in_json);
   std::map<std::string_view, std::string_view> out_dict;
 
   // TODO : 封装 mysql 查询语句，使用RAII
   // TODO : mysql调优，避免使用select* ?
-  std::string sql = "select username, password from users";
+  std::string sql = "SELECT username, password FROM users";
   // TODO : 优化获取 MYSQL 指针的方式
   mysql_query(Instance()->Mysql(), sql.c_str());
 
@@ -57,18 +58,46 @@ std::string Controller::ParseLogin(const std::string_view& in_json, std::string*
       std::cout << row[j] << ' ';
     } std::cout << '\n';
     std::string username = row[0], password = row[1];
-    std::cout << in_dict["username"] << " " << in_dict["password"] << '\n';
     if (in_dict["username"] == username && in_dict["password"] == password) {
       std::cout << "success\n";
-      out_dict.insert({"status","success"});
+      out_dict.insert({"status", "success"});
     }
   }
 
+  mysql_free_result(res);
+
   // 没有该用户
   if (!out_dict.count("status")) {
+    std::cout << "fail" << '\n';
     out_dict.insert({"status", "fail"});
   }
+
+  *out_json = json_util::DeparseJson(out_dict); 
   return json_util::DeparseJson(out_dict);
+}
+
+void Controller::RegisterAccount(const std::string_view& in_json, std::string* out_json)
+{
+  std::map<std::string_view, std::string_view> in_dict 
+    = json_util::ParseJson(in_json);
+  std::map<std::string_view, std::string_view> out_dict;
+
+  std::string sql = "INSERT users (username, password) VALUE ('";
+  sql += in_dict["username"];
+  sql += "',";
+  sql += in_dict["password"];
+  sql += ')';
+
+  std::cout << sql << '\n';
+  bool success = mysql_query(Instance()->Mysql(), sql.c_str()) == 0;
+
+  if (success) {
+    out_dict.insert({"status", "success"});
+  } else {
+    out_dict.insert({"status", "fail"});
+  }
+
+  *out_json = json_util::DeparseJson(out_dict);
 }
 
 } // namespace web_internal

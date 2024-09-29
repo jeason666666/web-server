@@ -1,5 +1,5 @@
-#ifndef WEB_JSON_READER_H
-#define WEB_JSON_READER_H
+#ifndef WEB_JSON_UTIL_H
+#define WEB_JSON_UTIL_H
 
 #include <map>
 #include <string>
@@ -15,4 +15,4 @@ std::string DeparseJson(const std::map<std::string_view, std::string_view>& dict
 } // namespace json_util
 } // namespace web_internal
 
-#endif // WEB_JSON_READER_H
+#endif // WEB_JSON_UTIL_H

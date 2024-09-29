@@ -15,6 +15,8 @@ public:
 
   static std::string ParseLogin(const std::string_view& in_json, std::string* out_json);
 
+  static void RegisterAccount(const std::string_view& in_json, std::string* out_json);
+
   static Controller* Instance() { return inst_; }
 
   MYSQL* Mysql() { return mysql_; }

@@ -22,6 +22,9 @@ run:
 update:
 	scl enable devtoolset-9 bash
 
+count:
+	wc -l $(SRC) $(INC)
+
 runtest:
 	./build/test
 
