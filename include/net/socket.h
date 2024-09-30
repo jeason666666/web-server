@@ -1,5 +1,5 @@
-#ifndef WEB_SOCKET_HPP
-#define WEB_SOCKET_HPP
+#ifndef WEB_SOCKET_H
+#define WEB_SOCKET_H
 
 #include <string_view>
 
@@ -54,4 +54,4 @@ private:
 } // namespace net_util
 } // namespace web_internal
 
-#endif // WEB_SOCKET_HPP
+#endif // WEB_SOCKET_H

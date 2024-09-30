@@ -1,14 +1,17 @@
 CC := gcc
 CXX := g++
 
-CXX_FLAGS := -std=c++17 -lpthread -L/lib64/mysql -lmysqlclient
+CXX_FLAGS := -std=c++17
+CXX_FLAGS += -lpthread
+CXX_FLAGS += -L/lib64/mysql -lmysqlclient
+CXX_FLAGS += -Ithirdlib
 
 SRC_PATH := src
 INC_PATH := include
 BUILD_PATH := build
 
-SRC := $(wildcard $(SRC_PATH)/*.cc)
-INC := $(wildcard $(INC_PATH)/*.h)
+SRC := $(shell find $(SRC_PATH) -type f -name "*.cc")
+INC := $(shell find $(INC_PATH) -type f -name "*.h")
 
 main:main.cc
 	$(CXX) main.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/main $(CXX_FLAGS)

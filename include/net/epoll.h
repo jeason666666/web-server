@@ -1,5 +1,5 @@
-#ifndef WEB_EPOLL_HPP
-#define WEB_EPOLL_HPP
+#ifndef WEB_EPOLL_H
+#define WEB_EPOLL_H
 
 namespace web_internal {
 namespace net_util {
@@ -16,4 +16,4 @@ private:
 } // namespace net_util
 } // namespace web_internal
 
-#endif // WEB_EPOLL_HPP
+#endif // WEB_EPOLL_H
