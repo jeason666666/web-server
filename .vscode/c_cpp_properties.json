@@ -7,12 +7,12 @@
                 "${default}"
             ],
             "defines": [],
-            "compilerPath": "/opt/rh/devtoolset-9/root/usr/bin/g++",
+            "compilerPath": "/opt/rh/devtoolset-11/root/usr/bin/g++",
             "cStandard": "c11",
-            "cppStandard": "c++17",
+            "cppStandard": "c++20",
             "intelliSenseMode": "linux-gcc-x64",
             "compilerArgs": [
-                "-std=c++17"
+                "-std=c++20"
             ]
         }
     ],

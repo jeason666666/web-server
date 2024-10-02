@@ -1,6 +1,6 @@
 {
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ -std=c++17 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+        "cpp": "cd $dir && g++ -std=c++2a $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
     },
     "files.associations": {
         "unordered_map": "cpp",
@@ -65,6 +65,7 @@
         "chrono": "cpp",
         "ratio": "cpp",
         "thread": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "shared_mutex": "cpp"
     }
 }

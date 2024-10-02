@@ -1,7 +1,7 @@
 CC := gcc
 CXX := g++
 
-CXX_FLAGS := -std=c++17
+CXX_FLAGS := -std=c++20
 CXX_FLAGS += -lpthread
 CXX_FLAGS += -L/lib64/mysql -lmysqlclient
 CXX_FLAGS += -Ithirdlib
@@ -17,13 +17,16 @@ main:main.cc
 	$(CXX) main.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/main $(CXX_FLAGS)
 
 test:test.cc
-	$(CXX) test.cc $(SRC) -o $(BUILD_PATH)/test $(CXX_FLAGS)
+	$(CXX) test.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/test $(CXX_FLAGS)
 
 run:
 	./build/main
 
+trun:
+	./build/test
+
 update:
-	scl enable devtoolset-9 bash
+	scl enable devtoolset-11 bash
 
 count:
 	wc -l $(SRC) $(INC)

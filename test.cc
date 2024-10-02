@@ -1,13 +1,11 @@
 #include <iostream>
 
-#include "json_helper.h"
+#include <net/tcp_server.h>
+#include <string_view>
 
 int main()
 {
-  std::string str = R"({"username":"ljs", "password":"123321"})";
-  auto mp = web_internal::json_util::ParseJson(str);
-  for (auto&[k, v] : mp) {
-    std::cout << k << ':' << v << '\n';
-  }
+  web_internal::net::TcpServer* tcp_server = new web_internal::net::TcpServer;
+  tcp_server->Start();
   return 0;
 }

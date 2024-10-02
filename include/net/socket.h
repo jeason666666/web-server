@@ -1,9 +1,7 @@
-#ifndef WEB_SOCKET_H
-#define WEB_SOCKET_H
+#ifndef WEB_NET_SOCKET_H
+#define WEB_NET_SOCKET_H
 
 #include <string_view>
-
-#include <strings.h>
 
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -11,47 +9,28 @@
 #include <sys/socket.h>
 
 namespace web_internal {
-namespace net_util {
+namespace net {
 
 class Socket {
 public:
-  Socket() {
-    fd_ = socket(AF_INET, SOCK_STREAM, 0);
-  }
+  Socket();
+  explicit Socket(int fd);
 
-  void Bind(std::string_view& ip, uint16_t port) {
-    struct sockaddr_in sockaddr;
-    bzero(&sockaddr, sizeof(struct sockaddr_in));
-    sockaddr.sin_family = AF_INET;
-    sockaddr.sin_addr.s_addr = inet_addr(ip.data());
-    sockaddr.sin_port = htons(port);
-  }
+  void Bind(const std::string_view& ip, uint16_t port);
 
-  void Listen() {
-    listen(fd_, SOMAXCONN);
-  }
+  void Listen();
 
-  int Accept() {
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_len = sizeof(struct sockaddr_in);
-    bzero(&client_addr, client_addr_len);
+  int Accept();
 
-    int client_fd = accept(fd_, (struct sockaddr*)&client_addr, &client_addr_len);
+  void SetNonBlock();
 
-    return client_fd;
-  }
-
-  void SetNonBlock() {
-    int fd_status = fcntl(fd_, F_GETFD);
-    fcntl(fd_, F_SETFD, fd_status | O_NONBLOCK);
-  }
+  inline int fd_member_varible() const { return fd_; }
 
 private:
   int fd_;
-
 };
 
-} // namespace net_util
+} // namespace net
 } // namespace web_internal
 
-#endif // WEB_SOCKET_H
+#endif // WEB_NET_SOCKET_H
