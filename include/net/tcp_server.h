@@ -45,8 +45,8 @@ private:
   std::string write_buffer_;
 };
 
-const static std::string kIp = "127.0.0.1";
-const static uint16_t kPort = 8080;
+const static char* kIp = "0.0.0.0";
+const static uint16_t kPort = 443;
 
 class TcpServer {
 public:
@@ -59,14 +59,15 @@ public:
 
   void Accepter(Connection* connection);
 
-  void Recver(Connection* connection);
+  virtual void Recver(Connection* connection);
 
-  void Sender(Connection* connection);
+  virtual void Sender(Connection* connection);
 
 private:
   Epoll epoll_;
   Socket listen_socket_;
   std::unordered_map<int, Connection*> connections_;
+  
 };
 
 } // namespace net

@@ -10,7 +10,7 @@
 namespace web_internal {
 namespace net {
 
-static const int buffer_num = 1024;
+static const int kBufferNum = 1024;
 
 Connection::Connection(const Socket& socket)
   : socket_(socket)
@@ -82,6 +82,7 @@ void TcpServer::LoopOnce()
     }
   }
 }
+
 void TcpServer::Accepter(Connection* connection)
 {
   LOG(log::LogLevel::kDebug, "accept new connection");
@@ -117,7 +118,7 @@ void TcpServer::Recver(Connection* connection)
 {
   LOG(log::LogLevel::kDebug, "tcp server recv");
   while (true) {
-    char buffer[buffer_num];
+    char buffer[kBufferNum];
     ssize_t sz  = recv(connection->GetFd(), buffer, sizeof(buffer) - 1, 0);
     if (sz < 0) {
       if (errno == EAGAIN || errno == EWOULDBLOCK) {
@@ -136,10 +137,7 @@ void TcpServer::Recver(Connection* connection)
     connection->read_buffer_member_variable() += buffer;
   }
 
-  // TODO : 解耦业务模块
-  connection->write_buffer_member_variable() += connection->read_buffer_member_variable().c_str();
-  Sender(connection);
-  connection->read_buffer_member_variable().clear();
+  LOG(log::LogLevel::kDebug, connection->read_buffer_member_variable().c_str());
 }
 
 void TcpServer::Sender(Connection* connection)

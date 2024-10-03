@@ -34,7 +34,7 @@ void Socket::Listen()
 int Socket::Accept()
 {
   struct sockaddr_in client_addr;
-  socklen_t client_addr_len = sizeof(struct sockaddr_in);
+  socklen_t client_addr_len = sizeof(client_addr);
   bzero(&client_addr, client_addr_len);
 
   return accept(fd_, (struct sockaddr*)&client_addr, &client_addr_len);

@@ -1,7 +1,7 @@
 #ifndef WEB_LOGGER_LOG_H
 #define WEB_LOGGER_LOG_H
 
-#include <string_view>
+#include <string>
 
 namespace web_internal {
 namespace log {
@@ -11,7 +11,7 @@ namespace log {
 } \
 while (0)
 
-enum class LogLevel {
+enum LogLevel {
   kDebug = 0,
   kInfo = 1,
   kWarn = 2,
@@ -19,10 +19,10 @@ enum class LogLevel {
   kFatal = 4
 };
 
-void Log(LogLevel log_level, const std::string_view& log_str);
+void Log(LogLevel log_level, const std::string& log_str);
 
 void Log(LogLevel log_level, const char* file_name, const int line_num
-  , const std::string_view& log_str);
+  , const std::string& log_str);
 
 } // namespace log
 } // namespace web_internal

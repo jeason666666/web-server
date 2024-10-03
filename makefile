@@ -5,6 +5,7 @@ CXX_FLAGS := -std=c++20
 CXX_FLAGS += -lpthread
 CXX_FLAGS += -L/lib64/mysql -lmysqlclient
 CXX_FLAGS += -Ithirdlib
+CXX_FLAGS += -g  # for debug
 
 SRC_PATH := src
 INC_PATH := include
@@ -24,6 +25,12 @@ run:
 
 trun:
 	./build/test
+
+tgdb:
+	gdb ./build/test
+
+gdb:
+	gdb ./build/main
 
 update:
 	scl enable devtoolset-11 bash
