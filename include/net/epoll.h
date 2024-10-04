@@ -8,7 +8,7 @@
 
 #include "net/socket.h"
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 static const int kMaxEventNum = 1024;
@@ -28,6 +28,6 @@ private:
 };
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_NET_EPOLL_H

@@ -1,7 +1,8 @@
 #include "net/http.h"
-#include <iostream>
 
-namespace web_internal {
+#include "log/log.h"
+
+namespace web {
 namespace net {
 
 static const char kCR = '\r';
@@ -14,7 +15,8 @@ std::string get_status_message(int status)
 {
   if      (status == 200) return "OK";
   else if (status == 404) return "NOT FOUND";
-  // TODO : 不应该走到这里
+  
+  ASSERT(false);
   return nullptr;
 }
 
@@ -31,18 +33,20 @@ void Request::Serialize(const std::string& raw_str)
 {
   int last_field_pos = 0;
   int current_field_pos = 0;
+  
   // 状态行
-  // TODO : 错误处理
   current_field_pos = raw_str.find(kSpace, last_field_pos);
+  ASSERT(current_field_pos != std::string::npos);
   method_ = raw_str.substr(0, current_field_pos - last_field_pos);
   last_field_pos = current_field_pos + 1;
 
   current_field_pos = raw_str.find(kSpace, last_field_pos);
+  ASSERT(current_field_pos != std::string::npos);
   path_ = raw_str.substr(last_field_pos, current_field_pos - last_field_pos);
   last_field_pos = current_field_pos + 1;
 
-  // TODO : 了解一下string的构造？
   current_field_pos = raw_str.find(kCRLF, last_field_pos);
+  ASSERT(current_field_pos != std::string::npos);
   version_ = raw_str.substr(last_field_pos, current_field_pos - last_field_pos);
   last_field_pos = current_field_pos + 1;
 
@@ -56,6 +60,7 @@ void Request::Serialize(const std::string& raw_str)
     last_field_pos = current_field_pos + 1;
 
     current_field_pos = raw_str.find(kCRLF, last_field_pos);
+    ASSERT(current_field_pos != std::string::npos);
     std::string value(raw_str.substr(last_field_pos, current_field_pos - last_field_pos));
     last_field_pos = current_field_pos + 1;
 
@@ -64,6 +69,7 @@ void Request::Serialize(const std::string& raw_str)
 
   // 空行
   current_field_pos = raw_str.find(kCRLF, last_field_pos);
+  ASSERT(current_field_pos != std::string::npos);
   last_field_pos = current_field_pos + 1;
 
   // 响应正文
@@ -73,8 +79,7 @@ void Request::Serialize(const std::string& raw_str)
 
 Response::Response()
   : version_("HTTP/1.1")
-  , status_(200)
-  , status_message_("OK")
+  , status_(-1)
 {
 
 }
@@ -94,12 +99,15 @@ std::string Response::Deserialize()
   std::string resq;
   
   // 状态行
+  ASSERT(!version_.empty());
   resq += version_;
   resq += kSpace;
 
+  ASSERT(status_ != -1);
   resq += std::to_string(status_);
   resq += kSpace;
 
+  ASSERT(!status_message_.empty());
   resq += status_message_;
   resq += kCRLF;
 
@@ -121,4 +129,4 @@ std::string Response::Deserialize()
 }
 
 } // namespace net
-} // namespace web_internal
+} // namespace web

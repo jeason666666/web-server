@@ -12,7 +12,7 @@ int main()
     std::cout << "post login" << '\n';
 
     std::string out_json;
-    web_internal::Controller::ParseLogin(req.body, &out_json);
+    web::Controller::ParseLogin(req.body, &out_json);
     resp.set_content(out_json, "application/json;charset=utf-8");
   });
   
@@ -21,7 +21,7 @@ int main()
     std::cout << "post register" << '\n';
 
     std::string out_json;
-    web_internal::Controller::RegisterAccount(req.body, &out_json);
+    web::Controller::RegisterAccount(req.body, &out_json);
     resp.set_content(out_json, "application/json;charset=utf-8");
   });
 

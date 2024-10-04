@@ -2,7 +2,9 @@
 
 #include <strings.h>
 
-namespace web_internal {
+#include "log/log.h"
+
+namespace web {
 namespace net {
 
 Socket::Socket()
@@ -23,12 +25,16 @@ void Socket::Bind(const std::string_view& ip, uint16_t port)
   sockaddr.sin_family = AF_INET;
   sockaddr.sin_addr.s_addr = inet_addr(ip.data());
   sockaddr.sin_port = htons(port);
-  bind(fd_, (struct sockaddr*)&sockaddr, sizeof(sockaddr));
+  ASSERT(
+    bind(fd_, (struct sockaddr*)&sockaddr, sizeof(sockaddr)) != -1
+    );
 }
 
 void Socket::Listen()
 {
-  listen(fd_, SOMAXCONN);
+  ASSERT(
+    listen(fd_, SOMAXCONN) != -1
+    );
 }
 
 int Socket::Accept()
@@ -47,4 +53,4 @@ void Socket::SetNonBlock()
 }
 
 } // namespace net
-} // namespace web_internal
+} // namespace web

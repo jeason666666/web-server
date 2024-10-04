@@ -1,8 +1,8 @@
 #include "net/epoll.h"
 
-#include "logger/log.h"
+#include "log/log.h"
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 Epoll::Epoll()
@@ -50,4 +50,4 @@ std::vector<struct epoll_event> Epoll::Wait()
 }
 
 } // namespace net
-} // namespace web_internal
+} // namespace web

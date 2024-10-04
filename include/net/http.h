@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 using Headers = std::map<std::string, std::string>;
@@ -12,7 +12,7 @@ using Headers = std::map<std::string, std::string>;
 std::string get_status_message(int status);
 
 struct Request {
-  Request(const std::string& raw_str);
+  explicit Request(const std::string& raw_str);
   
   void Serialize(const std::string& raw_str);
 
@@ -24,7 +24,7 @@ struct Request {
 };
 
 struct Response {
-  Response();
+  explicit Response();
 
   void SetHeader(const std::string& key, const std::string& value);
   void SetBody(const std::string& body);
@@ -39,6 +39,6 @@ struct Response {
 };
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_NET_HTTP_H

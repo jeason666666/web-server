@@ -8,7 +8,7 @@
 #include "net/epoll.h"
 #include "net/socket.h"
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 class Connection {
@@ -71,6 +71,6 @@ private:
 };
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_NET_TCP_SERVER_H

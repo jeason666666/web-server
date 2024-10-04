@@ -6,7 +6,9 @@
 
 #include <mysql/mysql.h>
 
-namespace web_internal {
+#include "db/database.h"
+
+namespace web {
 
 class Controller {
 public:
@@ -19,15 +21,12 @@ public:
 
   static Controller* Instance() { return inst_; }
 
-  MYSQL* Mysql() { return mysql_; }
-
 private:
   static Controller* inst_;
-
-private:
-  MYSQL* mysql_ = nullptr;
+  
+  static db::Database database_;
 };
 
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_CONTROLLER_H

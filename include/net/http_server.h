@@ -8,7 +8,7 @@
 #include <map>
 #include <string>
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 using Handler = std::function<void(const Request&, Response&)>;
@@ -29,6 +29,6 @@ private:
 };
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_NET_HTTP_SERVER_H

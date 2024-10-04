@@ -3,11 +3,16 @@
 
 #include <string>
 
-namespace web_internal {
+namespace web {
 namespace log {
 
 #define LOG(log_level, log_str) do { \
   Log(log_level, __FILE__, __LINE__, log_str); \
+} \
+while (0)
+
+#define ASSERT(condition) do { \
+  log::Assert(#condition, condition, __FILE__, __LINE__); \
 } \
 while (0)
 
@@ -24,7 +29,10 @@ void Log(LogLevel log_level, const std::string& log_str);
 void Log(LogLevel log_level, const char* file_name, const int line_num
   , const std::string& log_str);
 
+void Assert(const char* file_name, const int line_num
+  , const char* condition_str, bool Condition);
+
 } // namespace log
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_LOGGER_LOG_H

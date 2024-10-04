@@ -1,9 +1,9 @@
-#include "logger/log.h"
+#include "log/log.h"
 
 #include <cstdio>
 #include <string>
 
-namespace web_internal {
+namespace web {
 namespace log {
 
 void Log(LogLevel log_level, const std::string& log_str)
@@ -25,5 +25,16 @@ void Log(LogLevel log_level, const char* file_name, const int line_num
     , level_str.c_str(), file_name, line_num, log_str.data());
 }
 
+void Assert(const char* file_name, const int line_num
+  , const char* condition_str, bool Condition)
+{
+  if (!Condition) {
+    printf("[%s:%d] %s assertion fail"
+    , file_name, line_num, condition_str);
+    // TODO : 完善退出码
+    exit(1);
+  }
+}
+
 } // namespace log
-} // namespace web_internal
+} // namespace web

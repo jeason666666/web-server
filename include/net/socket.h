@@ -8,7 +8,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 class Socket {
@@ -31,6 +31,6 @@ private:
 };
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
 
 #endif // WEB_NET_SOCKET_H

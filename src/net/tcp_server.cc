@@ -5,9 +5,9 @@
 #include <cerrno>
 #include <cstdio>
 
-#include "logger/log.h"
+#include "log/log.h"
 
-namespace web_internal {
+namespace web {
 namespace net {
 
 static const int kBufferNum = 1024;
@@ -24,7 +24,7 @@ void Connection::SetCallback
   (BindCallback read_cb, BindCallback write_cb, BindCallback except_cb)
 {
   read_cb_ = read_cb;
-  write_cb = write_cb_;
+  write_cb_ = write_cb;
   except_cb_ = except_cb;
 }
 
@@ -70,9 +70,8 @@ void TcpServer::LoopOnce()
   std::vector<struct epoll_event> ready_events = epoll_.Wait();
   for (auto& event : ready_events) {
     int fd = event.data.fd;
-    if (!connections_.count(fd)) {
-      LOG(log::LogLevel::kError, "no connection in connections");
-    }
+
+    ASSERT(connections_.count(fd));
     LOG(log::LogLevel::kDebug, "new event");
 
     if (event.events & EPOLLIN) {
@@ -163,7 +162,8 @@ void TcpServer::Sender(Connection* connection)
     connection->write_buffer_member_variable().erase(0, sz);
   }
   connection->write_buffer_member_variable().clear();
+  LOG(log::kDebug, "tcp server send end");
 }
 
 } // namespace net
-} // namespace web_internal
+} // namespace web
