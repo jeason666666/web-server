@@ -24,6 +24,7 @@ enum LogLevel {
   kFatal = 4
 };
 
+// TODO : 增加格式化字符串
 void Log(LogLevel log_level, const std::string& log_str);
 
 void Log(LogLevel log_level, const char* file_name, const int line_num

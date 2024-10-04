@@ -75,9 +75,11 @@ void TcpServer::LoopOnce()
     LOG(log::LogLevel::kDebug, "new event");
 
     if (event.events & EPOLLIN) {
-      connections_[fd]->Read();
+      ASSERT(connections_[fd]->read_cb_ != nullptr);
+      thread_pool_.AddTask(connections_[fd]->read_cb_);
     } else if (event.events & EPOLLOUT) {
-      connections_[fd]->Write();
+      ASSERT(connections_[fd]->write_cb_ != nullptr);
+      thread_pool_.AddTask(connections_[fd]->write_cb_);
     }
   }
 }

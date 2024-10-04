@@ -7,11 +7,14 @@
 
 #include "net/epoll.h"
 #include "net/socket.h"
+#include "task/thread_pool.h"
 
 namespace web {
 namespace net {
 
 class Connection {
+  friend class TcpServer;
+
   using BindCallback = std::function<void()>;
   using Callback = std::function<void(Connection*)>;
 public:
@@ -68,6 +71,7 @@ private:
   Socket listen_socket_;
   std::unordered_map<int, Connection*> connections_;
   
+  task::ThreadPool thread_pool_;
 };
 
 } // namespace net
