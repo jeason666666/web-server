@@ -8,6 +8,7 @@
 #include "net/epoll.h"
 #include "net/socket.h"
 #include "task/thread_pool.h"
+#include "time/timer.h"
 
 namespace web {
 namespace net {
@@ -50,10 +51,12 @@ private:
 
 const static char* kIp = "0.0.0.0";
 const static uint16_t kPort = 443;
+const static long int kTimeOut = 120;
 
 class TcpServer {
 public:
-  TcpServer();
+  // @ time_out 超时参数，超时断开连接
+  TcpServer(long int time_out = kTimeOut);
   ~TcpServer();
 
   void Start();
@@ -67,11 +70,15 @@ public:
   virtual void Sender(Connection* connection);
 
 private:
+  void RemoveOverTimeConnection();
+
+private:
   Epoll epoll_;
   Socket listen_socket_;
   std::unordered_map<int, Connection*> connections_;
   
   task::ThreadPool thread_pool_;
+  time::Timer timer_;
 };
 
 } // namespace net

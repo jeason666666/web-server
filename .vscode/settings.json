@@ -67,6 +67,21 @@
         "ratio": "cpp",
         "thread": "cpp",
         "regex": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "coroutine": "cpp",
+        "forward_list": "cpp",
+        "buffer": "cpp",
+        "executor": "cpp",
+        "internet": "cpp",
+        "io_context": "cpp",
+        "netfwd": "cpp",
+        "socket": "cpp",
+        "timer": "cpp",
+        "future": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp"
     },
 }

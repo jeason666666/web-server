@@ -28,9 +28,10 @@ void Connection::SetCallback
   except_cb_ = except_cb;
 }
 
-TcpServer::TcpServer()
+TcpServer::TcpServer(long int time_out)
   : epoll_()
   , listen_socket_()
+  , timer_(time_out)
 {
   LOG(log::LogLevel::kDebug, "tcp server finish init");
 }
@@ -40,7 +41,7 @@ TcpServer::~TcpServer()
   for (auto& [fd, connection] : connections_) {
     delete connection;
     // TODO : 可以封装一个函数
-    // 从epoll中移除
+    // 从epoll中移除该监听事件
   }
 }
 
@@ -87,6 +88,7 @@ void TcpServer::LoopOnce()
 void TcpServer::Accepter(Connection* connection)
 {
   LOG(log::LogLevel::kDebug, "accept new connection");
+  RemoveOverTimeConnection();
   while (true) {
     LOG(log::LogLevel::kDebug, "try to accept");
     int new_fd = connection->socket_member_variable().Accept();
@@ -118,6 +120,7 @@ void TcpServer::Accepter(Connection* connection)
 void TcpServer::Recver(Connection* connection)
 {
   LOG(log::LogLevel::kDebug, "tcp server recv");
+  RemoveOverTimeConnection();
   while (true) {
     char buffer[kBufferNum];
     ssize_t sz  = recv(connection->GetFd(), buffer, sizeof(buffer) - 1, 0);
@@ -136,6 +139,12 @@ void TcpServer::Recver(Connection* connection)
       break;
     }
     connection->read_buffer_member_variable() += buffer;
+  }
+
+  // 对端关闭连接
+  if (connection->read_buffer_member_variable().empty()) {
+    delete connection;
+    return;
   }
 
   LOG(log::LogLevel::kDebug, connection->read_buffer_member_variable().c_str());
@@ -165,6 +174,15 @@ void TcpServer::Sender(Connection* connection)
   }
   connection->write_buffer_member_variable().clear();
   LOG(log::kDebug, "tcp server send end");
+}
+
+void TcpServer::RemoveOverTimeConnection()
+{
+  std::vector<int> over_time_connection = timer_.GetOverTimeKey();
+  for (auto key : over_time_connection) {
+    delete connections_[key];
+    connections_.erase(key);
+  }
 }
 
 } // namespace net

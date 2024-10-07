@@ -14,7 +14,6 @@ void HttpServer::Recver(Connection* connection)
 {
   TcpServer::Recver(connection);
 
-  // TODO : 封装为函数
   // 对端关闭连接
   if (connection->read_buffer_member_variable().empty()) {
     return;

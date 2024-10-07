@@ -10,15 +10,17 @@ CXX_FLAGS += -g  # for debug
 SRC_PATH := src
 INC_PATH := include
 BUILD_PATH := build
+TEST_PATH := test
+BUILD_PATH := build
 
 SRC := $(shell find $(SRC_PATH) -type f -name "*.cc")
 INC := $(shell find $(INC_PATH) -type f -name "*.h")
 
-main:main.cc
-	$(CXX) main.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/main $(CXX_FLAGS)
+main:$(TEST_PATH)/main.cc
+	$(CXX) $(TEST_PATH)/main.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/main $(CXX_FLAGS)
 
-test:test.cc
-	$(CXX) test.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/test $(CXX_FLAGS)
+test:$(TEST_PATH)/test.cc
+	$(CXX) $(TEST_PATH)/test.cc $(SRC) -I$(INC_PATH) -o $(BUILD_PATH)/test $(CXX_FLAGS)
 
 run:
 	./build/main
@@ -37,9 +39,6 @@ update:
 
 count:
 	wc -l $(SRC) $(INC)
-
-runtest:
-	./build/test
 
 .PHONY:clean
 clean:
